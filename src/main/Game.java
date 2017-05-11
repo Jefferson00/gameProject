@@ -23,12 +23,15 @@ private Thread thread;
 private boolean running = false;
 
 private Handler handler;
+private HUD hud;
 
 private Random r;
 
 public Game(){
     
      handler = new Handler();
+     
+     hud = new HUD();
      
      this.addKeyListener(new KeyInput(handler));
     new Window(WIDTH, HEIGHT, "Game", this);
@@ -38,6 +41,7 @@ public Game(){
     
     //for(int i=0; i<50; i++){
     handler.addObject(new Player(WIDTH/2-32,HEIGHT/2-32, ID.Player));
+    handler.addObject(new BasicEnemy(WIDTH/2-32,HEIGHT/2-32, ID.BasicEnemy));
    // }
 }
     
@@ -58,6 +62,7 @@ public synchronized void stop(){
 }
 
 public void run(){
+    this.requestFocus();
  long lastTime = System.nanoTime();
         double amountOfTicks = 60.0;
         double ns = 1000000000 / amountOfTicks;
@@ -88,8 +93,20 @@ public void run(){
                 stop();
 }
 
+public static int clamp(int var, int min, int max){
+    if(var >= max){
+        return var = max;
+    }else if(var <= min){
+        return var = min;
+    }else{
+        return var;
+    }
+    
+}
+
 private void tick(){
     handler.tick();
+    hud.tick();
 }
 
 private void render(){
@@ -105,6 +122,8 @@ private void render(){
           g.fillRect(0, 0, WIDTH, HEIGHT);
           
           handler.render(g);
+          
+          hud.render(g);
           
           g.dispose();
           bs.show();

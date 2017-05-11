@@ -7,37 +7,32 @@ package main;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.Random;
 
 /**
  *
  * @author 1614290093
  */
-public class Player extends GameObject{
-    
-    Random r =  new Random();
-    
-    public Player(int x, int y, ID id) {
-        super(x, y, id);
-        
-        //velX = r.nextInt(5)+1;
-       // velY = r.nextInt(5);
-    }
+public class BasicEnemy extends GameObject{
 
+    public BasicEnemy(int x,int y, ID id){
+        super (x, y, id);
+        
+        velX = 5;
+        velY = 5;
+    }
     
     
     public void tick() {
         x += velX;
         y += velY;
         
-       x = Game.clamp(x, 0 ,Game.WIDTH -37);
-       y = Game.clamp(y, 0 ,Game.HEIGHT -60);
+        if(y <=0 || y>= Game.HEIGHT - 32) velY *=-1;
+        if(x <=0 || x>= Game.WIDTH - 16) velX *=-1;
     }
 
-    
     public void render(Graphics g) {
-        g.setColor(Color.yellow);
-        g.fillRect(x, y, 33, 33);
+        g.setColor(Color.red);
+        g.fillRect(x, y, 16, 16);
     }
     
 }
