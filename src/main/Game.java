@@ -24,6 +24,7 @@ private boolean running = false;
 
 private Handler handler;
 private HUD hud;
+private Spawn spawn;
 
 private Random r;
 
@@ -32,6 +33,7 @@ public Game(){
      handler = new Handler();
      
      hud = new HUD();
+     spawn = new Spawn(handler, hud);
      
      this.addKeyListener(new KeyInput(handler));
     new Window(WIDTH, HEIGHT, "Game", this);
@@ -42,8 +44,7 @@ public Game(){
     //for(int i=0; i<50; i++){
     handler.addObject(new Player(WIDTH/2-32,HEIGHT/2-32, ID.Player, handler));
     handler.addObject(new BasicEnemy(r.nextInt(WIDTH),r.nextInt(HEIGHT), ID.BasicEnemy, handler));
-    handler.addObject(new BasicEnemy(r.nextInt(WIDTH),r.nextInt(HEIGHT), ID.BasicEnemy, handler));
-    handler.addObject(new BasicEnemy(r.nextInt(WIDTH),r.nextInt(HEIGHT), ID.BasicEnemy, handler));
+    
     
    // }
 }
@@ -110,6 +111,7 @@ public static int clamp(int var, int min, int max){
 private void tick(){
     handler.tick();
     hud.tick();
+    spawn.tick();
 }
 
 private void render(){
